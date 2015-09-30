@@ -1,0 +1,53 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+	var left = 37;
+	var right = 39;
+	var down = 40;
+	var up = 38;
+var keysdown = [];
+var running = true;
+
+var player = {
+	x: 300,
+	y: 300
+};
+
+
+function tick () {
+	if (keysdown[left]) {
+		player.x--;
+		$('#playerdiv').css({left:player.x, top:player.y});
+	}
+	
+	if (running===true) {
+		setTimeout(tick,100);
+	}
+}
+function keydown(e) {
+	keysdown[e.keyCode] = true;
+	
+}
+function keyup(e) {
+	keysdown[e.keyCode] =false;
+}
+function stop() {
+	running=false;
+}
+document.onkeydown=keydown;
+document.onkeyup=keyup;
+setTimeout(tick,100);
+	
+
+
+
+
+</script>
+<body>
+<button onclick = "stop()">
+stop;
+</button>
+
+<div id="playerdiv" style="position:absolute; width:50px; height:50px;background-color:red;">Div!</div>
+</body>
+</html>
