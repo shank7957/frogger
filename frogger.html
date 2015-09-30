@@ -9,17 +9,60 @@ var keysdown = [];
 var running = true;
 
 var player = {
-	x: 300,
-	y: 300
+	x: 0.5,
+	y: 10
 };
-
-
-function tick () {
+var enemy1= {
+	x: 0.1,
+	y: 1
+};
+function handlekeys (){
 	if (keysdown[left]) {
-		player.x--;
-		$('#playerdiv').css({left:player.x, top:player.y});
+		player.x-=0.05;
 	}
 	
+	if (keysdown[right]) {
+		player.x+=0.05;
+	}
+	
+	if (keysdown[up]) {
+		player.y-=1;
+	}
+	
+	if (keysdown[down]) {
+		player.y+=1;
+	}
+	
+}
+function handlenemy1(){
+	if (enemy1.x < 1){
+		enemy1.x+=0.1;
+	}
+	if(enemy1.x >=1){
+		enemy1.x-=1;
+	}
+}
+
+function applyPositionsToCss() {
+	var xscale = 800;
+	var yscale= 30;
+	$('#playerdiv').css({left:player.x *xscale, top:player.y*yscale});
+	$('#enemy1div').css({left:enemy1.x *xscale, top:enemy1.y*yscale});
+	
+}
+
+function DoesEnemyHit(){
+	console.log(player,enemy1);
+	if (player.x === enemy1.x && player.y === enemy1.y){
+		stop();
+	}
+	
+}
+function tick () {
+	handlekeys();
+	handlenemy1();
+	applyPositionsToCss();
+	DoesEnemyHit();
 	if (running===true) {
 		setTimeout(tick,100);
 	}
@@ -48,6 +91,7 @@ setTimeout(tick,100);
 stop;
 </button>
 
-<div id="playerdiv" style="position:absolute; width:50px; height:50px;background-color:red;">Div!</div>
+<div id="playerdiv" style="position:absolute; width:5px; height:5px;background-color:black;"></div>
+<div id="enemy1div" style="position:absolute; width:5px; height:5px;background-color:red;"></div>
 </body>
 </html>
